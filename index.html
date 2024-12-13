@@ -7,11 +7,9 @@
     <style>
         td {
             text-align: left;
-            <!--padding: 8px;-->
         }
         table, th, td {
             border: 1px solid;
-            <!--border-collapse: collapse;-->
         }
         .Parent {
             display: flex;
@@ -38,9 +36,7 @@
 <div class="Parent">
     <div class="child1">
         <center>
-            <!--<h3>Temperature</h3>-->
-            <canvas id="chart"></canvas>
-            
+            <canvas id="chart"></canvas>          
         </center>
     </div>
     <div class="child2">
@@ -57,15 +53,14 @@
     async function fetchData() {
         const response = await fetch('https://raw.githubusercontent.com/RFUNN/JSON_Data/main/climate.json');
         const data = await response.json();
-        return data; // Возвращаем массив объектов с данными
+        return data; 
     }
 
     async function setupData(cityId) {
         const data = await fetchData();
-        const cityData = data.find(city => city.id === cityId); // Найдем данные для города по ID
+        const cityData = data.find(city => city.id === cityId); 
         const monthlyData = cityData.monthlyAvg;
 
-        // Заполняем таблицу данными
         const tableHeader = `<tr><th>Month</th><th>High (°C)</th><th>Low (°C)</th></tr>`;
         let tableBody = '';
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -79,18 +74,15 @@
             </tr>`;
         });
         document.getElementById("my_data").innerHTML = tableHeader + tableBody;
-		
-		// настройки по умолчанию
+			
         Chart.defaults.global.defaultFontStyle = 'bold';
         Chart.defaults.global.defaultFontFamily='"poppins",sans-serif';
         Chart.defaults.global.defaultFontColor="#000";
         Chart.defaults.global.defaultFontSize = 21;
 		
-        <!-- Данные для графиков-->
         const highTemps = monthlyData.map(month => month.high);
         const lowTemps = monthlyData.map(month => month.low);
 
-        <!-- Создание графиков температур-->
         new Chart(document.getElementById("chart"), {
             type: 'line',
             data: {
@@ -102,8 +94,6 @@
                     borderWidth: 4,
                     data: highTemps
                 },
-            
-            
 			{
                     label: "Low Temperatures (°C)",
                     backgroundColor: 'transparent',
@@ -124,8 +114,7 @@
         });
        
     }
-
-    <!-- Инициализация с ID города-->
+   
     setupData(11);
 </script>
 
